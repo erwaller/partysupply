@@ -1,0 +1,6 @@
+tornado==2.3
+ujson==1.9
+redis==2.4.11
+pycurl==7.19.0
+pusher==0.6
+python-instagram==0.8.0
