@@ -22,7 +22,7 @@ def cli(args, options):
         if args[1] == "add":
             tyype, object_id = args[2:4]
             ident = "%s::%s" % (tyype, object_id)
-            callback_url = "https://n1p.showoff.io/instagram/subscriptions/%s" % (ident,)
+            callback_url = "https://7rx5.showoff.io/instagram/subscriptions/%s" % (ident,)
             logger.info("Adding subscription for %s %s", tyype, object_id)
             resp = api.create_subscription(object='tag',
                                            object_id=object_id,
@@ -31,7 +31,11 @@ def cli(args, options):
                                            callback_url=callback_url)
             print resp
         elif args[1] == "list":
-            print api.list_subscriptions()
+            resp = api.list_subscriptions()
+            print resp
+        elif args[1] == "delete":
+            resp = api.delete_subscriptions(id=args[2])
+            print resp
     else:
         from IPython.Shell import IPythonShellEmbed
         ipshell = IPythonShellEmbed([])

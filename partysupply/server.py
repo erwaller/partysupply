@@ -36,15 +36,12 @@ class SubscriptionsHandler(BaseHandler):
         logger.debug("Received acknowledgement for subscription: %s", ident)
 
     def process_tag_update(self, update):
-        logger.debug("Update for %s", self.ident, update)
+        logger.debug("Update for %s %s", self.ident, update)
 
     def post(self, ident=None):
         self.ident = ident
-
-        verify_token = self.get_argument("hub.verify_token")
         x_hub_signature = self.request.headers.get('X-Hub-Signature')
         raw_body = self.request.body
-
         reactor = subscriptions.SubscriptionsReactor()
         reactor.register_callback(subscriptions.SubscriptionType.TAG, self.process_tag_update)
         try:
