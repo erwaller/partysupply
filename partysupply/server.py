@@ -12,10 +12,10 @@ from tornado.curl_httpclient import CurlAsyncHTTPClient
 
 from instagram import client, subscriptions
 
-logger = logging.getLogger(__name__)
+from models import process_update
+from insta import INSTAGRAM_CLIENT_SECRET
 
-INSTAGRAM_CLIENT_ID = "f3d7765e22254561bb9d784666a7c772"
-INSTAGRAM_CLIENT_SECRET = "4774228b55044b268e6143b93ddb4d31"
+logger = logging.getLogger(__name__)
 
 
 class BaseHandler(tornado.web.RequestHandler):
@@ -30,25 +30,24 @@ class IndexHandler(BaseHandler):
 
 class SubscriptionsHandler(BaseHandler):
 
-    def get(self, ident=None):
+    def get(self, obj, object_id):
         mode = self.get_argument("hub.mode")
         self.write(self.get_argument("hub.challenge"))
-        logger.debug("Received acknowledgement for subscription: %s", ident)
+        logger.debug("Received acknowledgement for subscription: %s/%s", obj, object_id)
 
-    def process_tag_update(self, update):
-        logger.debug("Update for %s %s", self.ident, update)
-
-    def post(self, ident=None):
-        self.ident = ident
+    def post(self, obj, object_id):
+        self.object = obj
+        self.object_id = object_id
         x_hub_signature = self.request.headers.get('X-Hub-Signature')
         raw_body = self.request.body
-        reactor = subscriptions.SubscriptionsReactor()
-        reactor.register_callback(subscriptions.SubscriptionType.TAG, self.process_tag_update)
         try:
-            logger.debug("Received updates for subscription: %s", ident)
-            reactor.process(INSTAGRAM_CLIENT_SECRET, raw_body, x_hub_signature)
+            logger.debug("Received updates for subscription: %s/%s", obj, object_id)
+            self.application.reactor.process(INSTAGRAM_CLIENT_SECRET,
+                                             raw_body,
+                                             x_hub_signature)
         except subscriptions.SubscriptionVerifyError:
-            logger.debug("Signature mismatch for subscription: %s", ident)
+            logger.debug("Signature mismatch for subscription: %s/%s", obj, object_id)
+        # I don't know why this is necessary...
         self.write("Thanks Instagram!")
 
 
@@ -56,13 +55,16 @@ class Application(tornado.web.Application):
 
     def __init__(self, routes, **settings):
         tornado.web.Application.__init__(self, routes, **settings)
+        self.reactor = subscriptions.SubscriptionsReactor()
+        self.reactor.register_callback(subscriptions.SubscriptionType.TAG,
+                                       process_update)
 
 
 def get_application(**kwargs):
     routes = [
         (r"^/$", IndexHandler),
         # (r"^/instagram/subscriptions", SubscriptionsHandler),
-        (r"^/instagram/subscriptions/([^\/]+)", SubscriptionsHandler),
+        (r"^/instagram/subscriptions/([a-z0-9_-]+)/([a-z0-9_-]+)", SubscriptionsHandler),
     ]
     return Application(routes, **kwargs)
 

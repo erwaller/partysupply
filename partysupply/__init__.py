@@ -2,28 +2,22 @@ import os
 import logging
 import logging.config
 
-import instagram.client
-
 current_path = os.path.abspath(os.path.dirname(__file__).decode('utf-8'))
 logging.config.fileConfig(os.path.join(current_path, '..', 'logging.conf'))
 logger = logging.getLogger(__name__)
 
-from partysupply.server import (run_server,
-                                INSTAGRAM_CLIENT_ID,
-                                INSTAGRAM_CLIENT_SECRET)
+from partysupply.server import run_server
+from partysupply.insta import api
 
 
 def cli(args, options):
     if args[0] == "server":
         run_server(options.port)
     if args[0] == "subscription":
-        api = instagram.client.InstagramAPI(client_id=INSTAGRAM_CLIENT_ID,
-                                            client_secret=INSTAGRAM_CLIENT_SECRET)
         if args[1] == "add":
-            tyype, object_id = args[2:4]
-            ident = "%s::%s" % (tyype, object_id)
-            callback_url = "https://7rx5.showoff.io/instagram/subscriptions/%s" % (ident,)
-            logger.info("Adding subscription for %s %s", tyype, object_id)
+            obj, object_id = args[2:4]
+            callback_url = "https://7s7w.showoff.io/instagram/subscriptions/%s/%s" % (obj, object_id)
+            logger.info("Adding subscription for %s/%s", obj, object_id)
             resp = api.create_subscription(object='tag',
                                            object_id=object_id,
                                            aspect='media',
@@ -32,7 +26,9 @@ def cli(args, options):
             print resp
         elif args[1] == "list":
             resp = api.list_subscriptions()
-            print resp
+            print "%10s\t%10s\t%10s\t%10s" % ("id", "object", "object_id", "callback_url")
+            for sub in resp["data"]:
+                print "%10s\t%10s\t%10s\t%10s" % (sub["id"], sub["object"], sub["object_id"], sub["callback_url"])
         elif args[1] == "delete":
             resp = api.delete_subscriptions(id=args[2])
             print resp
