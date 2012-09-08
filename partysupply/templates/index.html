@@ -1,41 +1,123 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section class="instagram post">
-  <!-- https://api.instagram.com/v1/users/6338560/media/recent/?access_token=190594533.f59def8.995e0c086444430580965f3cfbb594eb -->
-  <!-- https://api.instagram.com/v1/users/12783736/media/recent/?access_token=190594533.f59def8.995e0c086444430580965f3cfbb594eb -->
-  <img src="http://distilleryimage3.s3.amazonaws.com/4d627b4cf60411e19f0922000a1e9a7d_7.jpg" class="image" width="612" height="612">
-  <div class="meta">
-    <div class="timestamp">10m</div>
-    <div class="user clearfix">
-      <img src="http://images.instagram.com/profiles/profile_6338560_75sq_1310410355.jpg" height="56" width="56">
-      <div class="username"><a href="#">cmack2187</a></div>
-    </div>
-  </div>
-</section>
 
-<section class="instagram post">
-  <!-- https://api.instagram.com/v1/users/6338560/media/recent/?access_token=190594533.f59def8.995e0c086444430580965f3cfbb594eb -->
-  <img src="http://distilleryimage6.s3.amazonaws.com/a27e6628f4b911e1877122000a1e8858_7.jpg" class="image" width="612" height="612">
-  <div class="meta">
-    <div class="timestamp">10m</div>
-    <div class="user clearfix">
-      <img src="http://images.instagram.com/profiles/profile_12783736_75sq_1346530333.jpg" height="56" width="56">
-      <div class="username"><a href="#">ariash21</a></div>
-    </div>
+<script type="text/html" id="instagram-post-view">
+<img src="<%= media.images.standard_resolution.url %>" class="image" width="612" height="612">
+<div class="meta">
+  <div class="timestamp timeago" title="<%= isodate %>">&hellip;</div>
+  <div class="user clearfix">
+    <img src="<%= media.user.profile_picture %>" height="56" width="56">
+    <div class="username"><a href="#"><%= media.user.username %></a></div>
   </div>
-</section>
+</div>
+</script>
 
-<section class="instagram post">
-  <!-- https://api.instagram.com/v1/users/6338560/media/recent/?access_token=190594533.f59def8.995e0c086444430580965f3cfbb594eb -->
-  <img src="http://distilleryimage8.s3.amazonaws.com/53d67ef8ce2f11e1a3f21231381b41e4_7.jpg" class="image" width="612" height="612">
-  <div class="meta">
-    <div class="timestamp">10m</div>
-    <div class="user clearfix">
-      <img src="http://images.instagram.com/profiles/profile_6338560_75sq_1310410355.jpg" height="56" width="56">
-      <div class="username"><a href="#">cmack2187</a></div>
-    </div>
-  </div>
-</section>
-
+<script type="text/javascript">
+var BOOTSTRAP_DATA = [
+  {
+    "attribution": null,
+    "tags": [],
+    "type": "image",
+    "location": null,
+    "comments": {
+      "count": 0,
+      "data": []
+    },
+    "filter": "Normal",
+    "created_time": "1346561393",
+    "link": "http:\/\/instagr.am\/p\/PD2RTRumU-\/",
+    "likes": {
+      "count": 0,
+      "data": []
+    },
+    "images": {
+      "low_resolution": {
+        "url": "http:\/\/distilleryimage6.s3.amazonaws.com\/a27e6628f4b911e1877122000a1e8858_6.jpg",
+        "width": 306,
+        "height": 306
+      },
+      "thumbnail": {
+        "url": "http:\/\/distilleryimage6.s3.amazonaws.com\/a27e6628f4b911e1877122000a1e8858_5.jpg",
+        "width": 150,
+        "height": 150
+      },
+      "standard_resolution": {
+        "url": "http:\/\/distilleryimage6.s3.amazonaws.com\/a27e6628f4b911e1877122000a1e8858_7.jpg",
+        "width": 612,
+        "height": 612
+      }
+    },
+    "caption": {
+      "created_time": "1346561394",
+      "text": "What a skank",
+      "from": {
+        "username": "ariash21",
+        "profile_picture": "http:\/\/images.instagram.com\/profiles\/profile_12783736_75sq_1346530333.jpg",
+        "id": "12783736",
+        "full_name": "Arielle Asher"
+      },
+      "id": "271299095677265294"
+    },
+    "user_has_liked": false,
+    "id": "271299086013588798_12783736",
+    "user": {
+      "username": "ariash21",
+      "website": "",
+      "bio": "",
+      "profile_picture": "http:\/\/images.instagram.com\/profiles\/profile_12783736_75sq_1346530333.jpg",
+      "full_name": "Arielle Asher",
+      "id": "12783736"
+    }
+  },
+  {
+    "attribution": null,
+    "tags": [],
+    "type": "image",
+    "location": {
+      "latitude": 40.755645751,
+      "longitude": -73.971351623
+    },
+    "comments": {
+      "count": 0,
+      "data": []
+    },
+    "filter": "Sierra",
+    "created_time": "1342323846",
+    "link": "http:\/\/instagr.am\/p\/NFjypsN6Xg\/",
+    "likes": {
+      "count": 0,
+      "data": []
+    },
+    "images": {
+      "low_resolution": {
+        "url": "http:\/\/distilleryimage8.s3.amazonaws.com\/53d67ef8ce2f11e1a3f21231381b41e4_6.jpg",
+        "width": 306,
+        "height": 306
+      },
+      "thumbnail": {
+        "url": "http:\/\/distilleryimage8.s3.amazonaws.com\/53d67ef8ce2f11e1a3f21231381b41e4_5.jpg",
+        "width": 150,
+        "height": 150
+      },
+      "standard_resolution": {
+        "url": "http:\/\/distilleryimage8.s3.amazonaws.com\/53d67ef8ce2f11e1a3f21231381b41e4_7.jpg",
+        "width": 612,
+        "height": 612
+      }
+    },
+    "caption": null,
+    "user_has_liked": false,
+    "id": "235751967873803744_6338560",
+    "user": {
+      "username": "cmack2187",
+      "website": "",
+      "bio": "philly, NYC, and everything in between...",
+      "profile_picture": "http:\/\/images.instagram.com\/profiles\/profile_6338560_75sq_1310410355.jpg",
+      "full_name": "Cormack",
+      "id": "6338560"
+    }
+  }
+];
+</script>
 {% end %}
