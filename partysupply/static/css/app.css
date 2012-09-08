@@ -60,10 +60,9 @@ a:hover {
   color: #2F5E86;
 }
 
-#wrap > section, #wrap > footer {
+.post {
   max-width: 612px;
-  margin-right: auto;
-  margin-left: auto;
+  margin: 0 auto 28px;
 }
 
 header {
@@ -71,16 +70,13 @@ header {
   margin-bottom: 28px;
 }
 
-.post {
-  margin: 0 0 28px 0;
-}
 .post.instagram {
+  background: #1A1A1A;
   box-shadow: 0px 2px 10px #111;
   -moz-box-shadow: 0px 2px 10px #111;
   -webkit-box-shadow: 0px 2px 10px #111;
 }
 .post.instagram .meta {
-  background: #1A1A1A;
   padding: 14px;
 }
 .post.instagram .image {
@@ -101,9 +97,9 @@ header {
   float: left;
   margin: 0 8px 0 0;
   vertical-align: middle;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
 }
 .post.instagram .timestamp {
   padd ing: 0 24px 0 0;
