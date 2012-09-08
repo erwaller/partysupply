@@ -25,7 +25,7 @@ class BaseHandler(tornado.web.RequestHandler):
 class IndexHandler(BaseHandler):
 
     def get(self):
-        self.write("hello!")
+        self.render("index.html")
 
 
 class SubscriptionsHandler(BaseHandler):
@@ -61,15 +61,22 @@ class Application(tornado.web.Application):
 
 
 def get_application(**kwargs):
+    settings = dict(
+        template_path=os.path.join(os.path.dirname(__file__), "templates"),
+        static_path=os.path.join(os.path.dirname(__file__), "static"),
+    )
+    settings.update(kwargs)
     routes = [
         (r"^/$", IndexHandler),
         # (r"^/instagram/subscriptions", SubscriptionsHandler),
         (r"^/instagram/subscriptions/([a-z0-9_-]+)/([a-z0-9_-]+)", SubscriptionsHandler),
     ]
-    return Application(routes, **kwargs)
+    return Application(routes, **settings)
 
 
 def run_server(port=8080):
+    tornado.options.parse_command_line()
+
     env = os.environ.get('SG_ENV', 'dev')
     application = get_application(debug=(env == "dev"))
 
