@@ -8,6 +8,7 @@ logger = logging.getLogger(__name__)
 
 from partysupply.server import run_server
 from partysupply.insta import api
+from partysupply.models import Subscription
 
 
 def cli(args, options):
@@ -16,14 +17,7 @@ def cli(args, options):
     if args[0] == "subscription":
         if args[1] == "add":
             obj, object_id = args[2:4]
-            callback_url = "https://7s7w.showoff.io/instagram/subscriptions/%s/%s" % (obj, object_id)
-            logger.info("Adding subscription for %s/%s", obj, object_id)
-            resp = api.create_subscription(object='tag',
-                                           object_id=object_id,
-                                           aspect='media',
-                                           # TODO: parameterize url
-                                           callback_url=callback_url)
-            print resp
+            Subscription.add_subscription(obj, object_id)
         elif args[1] == "list":
             resp = api.list_subscriptions()
             print "%10s\t%10s\t%10s\t%10s" % ("id", "object", "object_id", "callback_url")
