@@ -42,46 +42,60 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #444;
   font-size: 62.5%;
-  background: #F0F0F0 url(/static/images/noise.gif) repeat -70% 0;
+  background: #222 url(/static/images/dark_wall.png) repeat;
 }
+
+/* instagram palette
+pink: #FD294C
+yellow: #FFCC3A
+green: #6AC995
+blue: #3E86FF
+*/
 
 a {
   color: #4083A9;
   text-decoration: none;
 }
 a:hover {
-  color: #4083A9;
+  color: #2F5E86;
 }
 
-#wrap > header, #wrap > section, #wrap > footer {
-  max-width: 640px;
-  margin: 0 auto;
+#wrap > section, #wrap > footer {
+  max-width: 612px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+header {
+  border-top: 3px solid rgba(62, 134, 255, 0.75);
+  margin-bottom: 14px;
 }
 
 .post {
-  margin: 20px 0;
+  margin: 0 0 28px 0;
 }
 .post.instagram {
-  width: 612px;
-  min-height: 300px;
-  padding: 20px;
-  background: white;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07);
-  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07);
+  box-shadow: 0px 2px 10px #111;
+  -moz-box-shadow: 0px 2px 10px #111;
+  -webkit-box-shadow: 0px 2px 10px #111;
 }
-.post.instagram .user {
-  margin: 20px 0 0 0;
+.post.instagram .meta {
+  background: #1A1A1A;
+  padding: 14px;
+}
+.post.instagram .image {
+  width: 612px;
+  display: block;
 }
 .post.instagram .user .username {
-  font-size: 1.75em;
+  font-size: 2em;
+  line-height: 56px;
   font-weight: bold;
+  padding-left: 70px;
 }
 .post.instagram .user .fullname {
-  font-size: 1.5em;
+  font-size: 1.375em;
+  line-height: 1.375em;
 }
 .post.instagram .user img {
   float: left;
@@ -90,4 +104,13 @@ a:hover {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
+}
+.post.instagram .timestamp {
+  padd ing: 0 24px 0 0;
+  backg round: url(/static/images/instagram_16.png) right 2px no-repeat;
+  float: right;
+  font-size: 2em;
+  line-height: 56px;
+  color: #666;
+  font-weight: bold;
 }
