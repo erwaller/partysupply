@@ -60,9 +60,29 @@ a:hover {
   color: #2F5E86;
 }
 
+.posts {
+  width: 612px;
+  margin: 0 auto;
+  position: relative;
+}
+
+h1.background {
+  color: #1e1e1e;
+  font-size: 13em;
+  font-weight: bold;
+  position: absolute;
+  z-index: -1;
+
+  left: -446px;
+  top: 288px;
+
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+}
+
 .post {
-  max-width: 612px;
-  margin: 0 auto 28px;
+  margin: 0 0 56px;
 }
 
 header {
@@ -80,6 +100,7 @@ header {
   padding: 14px;
 }
 .post.instagram .image {
+  height: 612px;
   width: 612px;
   display: block;
 }
@@ -94,19 +115,51 @@ header {
   line-height: 1.375em;
 }
 .post.instagram .user img {
+  height: 56px;
+  width: 56px;
   float: left;
-  margin: 0 8px 0 0;
   vertical-align: middle;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
 }
 .post.instagram .timestamp {
-  padd ing: 0 24px 0 0;
-  backg round: url(/static/images/instagram_16.png) right 2px no-repeat;
   float: right;
   font-size: 2em;
   line-height: 56px;
   color: #666;
   font-weight: bold;
+}
+
+@media all and (max-width : 660px) {
+  .posts {
+    width: 306px;
+  }
+  .post {
+    margin: 0 0 28px;
+  }
+  .post.instagram .image {
+    width: 306px;
+    height: 306px;
+  }
+  .post.instagram .meta {
+    padding: 7px;
+  }
+  .post.instagram .user img {
+    height: 28px;
+    width: 28px;
+  }
+  .post.instagram .user .username {
+    font-size: 1em;
+    line-height: 28px;
+    font-weight: bold;
+    padding-left: 35px;
+  }
+  .post.instagram .timestamp {
+    font-size: 1em;
+    line-height: 28px;
+  }
+  h1.background {
+    display: none;
+  }
 }

@@ -2,14 +2,18 @@
 
 {% block content %}
 
-<div class="posts"></div>
+
+
+<div class="posts">
+  <h1 class="background">#1208party</h1>
+</div>
 
 <script type="text/html" id="instagram-post-view">
-<img src="#" class="image" width="612" height="612">
+<img src="#" class="image">
 <div class="meta">
   <div class="timestamp timeago" title="<%= isodate %>">&hellip;</div>
   <div class="user clearfix">
-    <img src="<%= media.user.profile_picture %>" height="56" width="56">
+    <img src="<%= media.user.profile_picture %>">
     <div class="username"><a href="#"><%= media.user.username %></a></div>
   </div>
 </div>
