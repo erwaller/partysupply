@@ -18,7 +18,7 @@ def cli(args, options):
     if args[0] == "subscription":
         if args[1] == "add":
             obj, object_id = args[2:4]
-            Subscription.add_subscription(obj, object_id)
+            Subscription.ensure_exists(obj, object_id)
         elif args[1] == "list":
             resp = api.list_subscriptions()
             print "%10s\t%10s\t%10s\t%10s" % ("id", "object", "object_id", "callback_url")
