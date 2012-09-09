@@ -13,7 +13,8 @@ from partysupply.models import Subscription
 
 def cli(args, options):
     if args[0] == "server":
-        run_server(options.port)
+        tags = options.tags.split(",")
+        run_server(options.port, tags)
     if args[0] == "subscription":
         if args[1] == "add":
             obj, object_id = args[2:4]
