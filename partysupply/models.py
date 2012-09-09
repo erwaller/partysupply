@@ -74,3 +74,11 @@ class Subscription(object):
                 pass
 
 
+class Media(object):
+
+    @classmethod
+    def find_by_tag_and_created_time(cls, id_, min_created_time):
+        key = "partysupply:tag:%s:media_ids" % (id_,)
+        ids = REDIS.zrangebyscore(key, min_created_time, float("inf"))
+        return ids
+

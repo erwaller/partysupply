@@ -12,8 +12,9 @@ from tornado.curl_httpclient import CurlAsyncHTTPClient
 
 from instagram import client, subscriptions
 
-from models import process_update
+from models import process_update, Subscription, Media
 from insta import INSTAGRAM_CLIENT_SECRET
+import config
 
 logger = logging.getLogger(__name__)
 
@@ -26,6 +27,23 @@ class IndexHandler(BaseHandler):
 
     def get(self):
         self.render("index.html")
+
+
+class PostsHandler(BaseHandler):
+
+    def get(self):
+        tags = self.get_arguments("tags", [])
+        min_created_time = self.get_argument("since", 0)
+        
+        for t in tags:
+            Subscription.ensure_exists("tag", t)
+        
+        ids = Media.find_by_tag_and_created_time(tags[0], min_created_time)
+        
+        ret = dict(posts=ids, meta=dict(tags=tags))
+        
+        self.set_header("Content-Type", "application/json")
+        self.write(json.dumps(ret))
 
 
 class SubscriptionsHandler(BaseHandler):
@@ -69,6 +87,7 @@ def get_application(**kwargs):
     routes = [
         (r"^/$", IndexHandler),
         # (r"^/instagram/subscriptions", SubscriptionsHandler),
+        (r"/posts", PostsHandler),
         (r"^/instagram/subscriptions/([a-z0-9_-]+)/([a-z0-9_-]+)", SubscriptionsHandler),
     ]
     return Application(routes, **settings)
@@ -77,11 +96,7 @@ def get_application(**kwargs):
 def run_server(port=8080):
     tornado.options.parse_command_line()
 
-    env = os.environ.get('SG_ENV', 'dev')
-    application = get_application(debug=(env == "dev"))
-
+    application = get_application(debug=config.DEBUG)
     application.listen(port, xheaders=True)
-
-    logger.info("api started 0.0.0.0:%d [%s] %d", int(port), env, os.getpid())
-
+    logger.info("api started 0.0.0.0:%d [%s] %d", int(port), config.SG_ENV, os.getpid())
     tornado.ioloop.IOLoop.instance().start()

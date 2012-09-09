@@ -27,7 +27,7 @@ $(function () {
 
   _.each(BOOTSTRAP_DATA, function (media) {
     var view = new InstagramPostView({ media: media });
-    setTimeout(function () { view.render().$el.prependTo(".posts"); }, (++count) * 350);
+    setTimeout(function () { view.render().$el.prependTo(".posts"); }, (++count) * 1000);
   });
   
 });
