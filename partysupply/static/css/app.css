@@ -73,8 +73,10 @@ h1.background {
   position: absolute;
   z-index: -1;
 
-  left: -446px;
-  top: 288px;
+  width: 1000px;
+  text-align: right;
+  left: -606px;
+  top: 448px;
 
   -webkit-transform: rotate(-90deg);
   -moz-transform: rotate(-90deg);

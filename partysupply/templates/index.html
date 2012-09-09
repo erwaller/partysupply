@@ -3,11 +3,11 @@
 {% block content %}
 
 <div class="posts">
-  <h1 class="background">#1208party</h1>
+  <h1 class="background">#{{ tags[0] }}</h1>
 </div>
 
 <script type="text/html" id="instagram-post-view">
-<img src="#" class="image">
+<img class="image">
 <div class="meta">
   <div class="timestamp timeago" title="<%= isodate %>">&hellip;</div>
   <div class="user clearfix">

@@ -17,11 +17,6 @@ REDIS = redis.StrictRedis(_url.hostname, _url.port, int(_db))
 logger = logging.getLogger(__name__)
 
 
-def process_update(update):
-    # TODO: debounce this
-    logger.debug("Update for %s/%s %s", update["object"], update["object_id"], update)
-
-
 class Subscription(object):
 
     def __init__(self, type_, id_):
@@ -55,6 +50,7 @@ class Subscription(object):
                                        aspect='media',
                                        # TODO: parameterize url
                                        callback_url=callback_url)
+        cls.cache_subscriptions(type_)
 
     @classmethod
     def cache_subscriptions(cls, type_):
@@ -80,6 +76,8 @@ class Media(object):
     def find_by_tag_and_created_time(cls, id_, min_created_time):
         key = "partysupply:tag:%s:media_ids" % (id_,)
         ids = REDIS.zrangebyscore(key, min_created_time, float("inf"))
+        if len(ids) == 0:
+            return []
         data = REDIS.hmget("partysupply:media", ids)
         return [json.loads(d) for d in data]
 
@@ -87,6 +85,8 @@ class Media(object):
     def find_by_tag(cls, id_, limit):
         key = "partysupply:tag:%s:media_ids" % (id_,)
         ids = REDIS.zrange(key, limit * -1, -1)
+        if len(ids) == 0:
+            return []
         data = REDIS.hmget("partysupply:media", ids)
         return [json.loads(d) for d in data]
 

@@ -7,12 +7,33 @@ var InstagramPost = Backbone.Model.extend({
 var InstagramPostCollection = Backbone.Collection.extend({
   model: InstagramPost,
 
+  initialize: function () {
+    this.polling_interval = null;
+  },
+
   url: function(){
     return "/posts?since=" + (posts.last().get("created_time").valueOf() / 1000);
   },
 
   comparator: function (post) {
     return post.get("created_time");
+  },
+
+  parse: function (response) {
+    return response.posts
+  },
+
+  startPolling: function (period) {
+    var that = this;
+    period = period || 2000;
+    this.polling_interval = setInterval(function () {
+      that.fetch({ add: true });
+    }, period);
+  },
+
+  stopPolling: function () {
+    clearInterval(this.polling_interval);
+    this.polling_interval = null;
   }
 })
 
@@ -52,8 +73,10 @@ $(function () {
   
   posts.on("add", function (post) {
     var view = new InstagramPostView({ model: post });
-    setTimeout(function () { view.render().$el.prependTo(".posts"); }, (++count) * 1000);
+    view.render().$el.prependTo(".posts");
   });
   
   posts.add(BOOTSTRAP_DATA.posts);
+  
+  posts.startPolling();
 });

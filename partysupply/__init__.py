@@ -19,6 +19,7 @@ def cli(args, options):
         if args[1] == "add":
             obj, object_id = args[2:4]
             Subscription.ensure_exists(obj, object_id)
+            Subscription(obj, object_id).update_media(limit=50)
         elif args[1] == "list":
             resp = api.list_subscriptions()
             print "%10s\t%10s\t%10s\t%10s" % ("id", "object", "object_id", "callback_url")

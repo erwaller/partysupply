@@ -12,7 +12,7 @@ from tornado.curl_httpclient import CurlAsyncHTTPClient
 
 from instagram import client, subscriptions
 
-from models import process_update, Subscription, Media
+from models import Subscription, Media
 from insta import INSTAGRAM_CLIENT_SECRET
 import config
 
@@ -29,8 +29,9 @@ class BaseHandler(tornado.web.RequestHandler):
 class IndexHandler(BaseHandler):
 
     def get(self):
-        bootstrap_data = dict(posts=Media.find_by_tag(self.tags[0], 10))
-        self.render("index.html", bootstrap_data_json=json.dumps(bootstrap_data))
+        bootstrap_data = dict(posts=Media.find_by_tag(self.tags[0], 2))
+        self.render("index.html", bootstrap_data_json=json.dumps(bootstrap_data),
+                                  tags=self.tags)
 
 
 class PostsHandler(BaseHandler):
@@ -56,12 +57,12 @@ class SubscriptionsHandler(BaseHandler):
         x_hub_signature = self.request.headers.get('X-Hub-Signature')
         raw_body = self.request.body
         try:
-            logger.debug("Received updates for subscription: %s/%s", obj, object_id)
+            logger.info("Received updates for subscription: %s/%s", obj, object_id)
             self.application.reactor.process(INSTAGRAM_CLIENT_SECRET,
                                              raw_body,
                                              x_hub_signature)
         except subscriptions.SubscriptionVerifyError:
-            logger.debug("Signature mismatch for subscription: %s/%s", obj, object_id)
+            logger.error("Signature mismatch for subscription: %s/%s", obj, object_id)
         # I don't know why this is necessary...
         self.write("Thanks Instagram!")
 
@@ -78,18 +79,26 @@ class Application(tornado.web.Application):
         settings = dict(
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
+            debug=config.DEBUG,
         )
         tornado.web.Application.__init__(self, routes, **settings)
         self.reactor = subscriptions.SubscriptionsReactor()
         self.reactor.register_callback(subscriptions.SubscriptionType.TAG,
-                                       process_update)
+                                       self.process_update)
         self.tags = tags
+
+    def process_update(self, update):
+        # TODO: debounce this
+        logger.debug("Received update for %s/%s %s", update["object"], update["object_id"], update)
+        def defer():
+            Subscription(update["object"], update["object_id"]).update_media(limit=5)
+        tornado.ioloop.IOLoop.instance().add_callback(defer)
 
 
 def run_server(port, tags):
     tornado.options.parse_command_line()
 
-    application = Application(tags, debug=config.DEBUG)
+    application = Application(tags)
     application.listen(port, xheaders=True)
     logger.info("api started 0.0.0.0:%d [%s] %d", int(port), config.SG_ENV, os.getpid())
     tornado.ioloop.IOLoop.instance().start()
