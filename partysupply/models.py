@@ -80,5 +80,13 @@ class Media(object):
     def find_by_tag_and_created_time(cls, id_, min_created_time):
         key = "partysupply:tag:%s:media_ids" % (id_,)
         ids = REDIS.zrangebyscore(key, min_created_time, float("inf"))
-        return ids
+        data = REDIS.hmget("partysupply:media", ids)
+        return [json.loads(d) for d in data]
+
+    @classmethod
+    def find_by_tag(cls, id_, limit):
+        key = "partysupply:tag:%s:media_ids" % (id_,)
+        ids = REDIS.zrange(key, limit * -1, -1)
+        data = REDIS.hmget("partysupply:media", ids)
+        return [json.loads(d) for d in data]
 
