@@ -12,7 +12,11 @@ var InstagramPostCollection = Backbone.Collection.extend({
   },
 
   url: function(){
-    return "/posts?since=" + (posts.last().get("created_time").valueOf() / 1000);
+    var since = 0;
+    if (posts.last()) {
+      since = posts.last().get("created_time").valueOf() / 1000;
+    }
+    return "/posts?" + $.param({ "since": since, "_": (new Date()).valueOf() });
   },
 
   comparator: function (post) {
@@ -51,7 +55,11 @@ var InstagramPostView = Backbone.View.extend({
     this.$el.hide();
     this.$(".image")
       .load(function () {
-        _.defer(function () { that.$el.fadeIn(); });
+        _.defer(function () {
+          that.$el
+            .addClass("fade-in")
+            .show();
+        });
         that.trigger("ready");
       })
       .attr("src", this.model.get("images").standard_resolution.url);
