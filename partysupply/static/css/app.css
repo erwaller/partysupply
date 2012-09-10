@@ -167,8 +167,33 @@ header {
     animation-delay: 0.1s;
 }
 
+.toolbar {
+  display: none;
+}
+
 /* Mobile */
 @media all and (max-width : 660px) {
+  .toolbar {
+    display: block;
+    width: 306px;
+    margin: 0 auto 14px;
+  }
+  .toolbar .title {
+    line-height: 29px;
+    font-size: 2.25em;
+    color: #151515;
+    text-shadow: #3d3d3d 0px 1px;
+    font-weight: bold;
+  }
+  .toolbar .take-picture {
+    float: right;
+    display: block;
+    background: url(/static/images/take-picture.png);
+    background-size: 29px 29px;
+    height: 29px;
+    width: 29px;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.0);
+  }
   header {
     margin-bottom: 14px;
   }

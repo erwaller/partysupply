@@ -16,6 +16,16 @@ header {
   background: linear-gradient(to right, #fd294c 0%,#ffcc3a 31%,#6ac995 65%,#3e86ff 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fd294c', endColorstr='#3e86ff',GradientType=1 );
 }
+#icon .camera {
+  background: url(/static/images/take-picture.png);
+  background-size: 58px 58px;
+  height: 58px;
+  width: 58px;
+  display: block;
+  margin: 0 auto;
+  position: relative;
+  top: 22px;
+}
 #startup-image {
   height: 460px;
   width: 320px;
@@ -26,5 +36,5 @@ header {
   height: 4px;
 }
 </style>
-<div id="icon"><header></header></div>
+<div id="icon"><header></header><span class="camera"></span></div>
 <div id="startup-image"><header></header></div>
