@@ -13,10 +13,10 @@ var InstagramPostCollection = Backbone.Collection.extend({
 
   url: function(){
     var since = 0;
-    if (posts.last()) {
-      since = posts.last().get("created_time").valueOf() / 1000;
+    if (app.posts.last()) {
+      since = app.posts.last().get("created_time").valueOf() / 1000;
     }
-    return "/posts?" + $.param({ "since": since, "_": (new Date()).valueOf() });
+    return "/posts?" + $.param({ "since": since });
   },
 
   comparator: function (post) {
@@ -29,7 +29,7 @@ var InstagramPostCollection = Backbone.Collection.extend({
 
   startPolling: function (period) {
     var that = this;
-    period = period || 2000;
+    period = period || (app.is_mobile ? 4000 : 2000);
     this.polling_interval = setInterval(function () {
       that.fetch({ add: true });
     }, period);
@@ -69,27 +69,37 @@ var InstagramPostView = Backbone.View.extend({
 
 });
 
-$(function () {
-  $(document).keyup(function (e) {
-    if (e.shiftKey && e.keyCode == 70) {
-      if (BigScreen.enabled) {
-        BigScreen.toggle();
-      } else {
-        // fallback for browsers that don't support full screen
-      }
+var AppView = Backbone.View.extend({
+
+  initialize: function () {
+    this.is_mobile = window["screen"] && (screen.width < 480 || screen.height < 480);
+    this.posts = new InstagramPostCollection();
+    this.posts.on("add", function (post) {
+      var view = new InstagramPostView({ model: post });
+      view.render().$el.prependTo(".posts");
+    });
+  },
+
+  render: function () {
+    if (BigScreen.enabled) {
+      $(document).keyup(function (e) {
+        if (e.shiftKey && e.keyCode == 70) {
+          BigScreen.toggle();
+        }
+      });
     }
-  });
 
-  window.posts = new InstagramPostCollection();
-  posts.on("add", function (post) {
-    var view = new InstagramPostView({ model: post });
-    view.render().$el.prependTo(".posts");
-  });
-  posts.add(BOOTSTRAP_DATA.posts);
-  posts.startPolling();
+    this.posts.add(BOOTSTRAP_DATA.posts);
+    this.posts.startPolling();
 
+    _.defer(function() {
+      window.scrollTo(0, 0);
+    });
+  }
 
-  _.defer(function() {
-    window.scrollTo(0, 0);
-  });
+});
+
+$(function () {
+  window.app = new AppView();
+  app.render();
 });
