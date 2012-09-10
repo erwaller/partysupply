@@ -43,7 +43,7 @@ body {
   color: #444;
   font-size: 62.5%;
   background: #111 url(/static/images/dark_wall.png) repeat;
-  min-height: 400px;
+  min-height: 460px;
 }
 
 /* instagram palette
@@ -90,7 +90,7 @@ h1.background {
 
 header {
   margin-bottom: 28px;
-  height: 3px;
+  height: 4px;
 
   /* http://www.colorzilla.com/gradient-editor/#fd294c+0,ffcc3a+31,6ac995+65,3e86ff+100;Custom */
   background: #3E86FF; /* Old browsers */
@@ -169,11 +169,14 @@ header {
 
 /* Mobile */
 @media all and (max-width : 660px) {
+  header {
+    margin-bottom: 14px;
+  }
   .posts {
     width: 306px;
   }
   .post {
-    margin: 0 0 28px;
+    margin: 0 0 14px;
   }
   .post.instagram .image {
     width: 306px;

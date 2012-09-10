@@ -1,6 +1,12 @@
 var InstagramPost = Backbone.Model.extend({
   initialize: function () {
     this.set("created_time", new Date(parseInt(this.get("created_time"), 10) * 1000));
+    if (app.is_mobile) {
+      this.set("link", "instagram://media?id=" + this.get("id"));
+      this.get("user").link = "instagram://user?username=" + this.get("user").username;
+    } else {
+      this.get("user").link = "#";
+    }
   }
 });
 
