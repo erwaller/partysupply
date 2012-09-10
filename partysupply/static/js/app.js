@@ -74,6 +74,16 @@ $(function () {
     window.scrollTo(0, 0);
   }, 0);
 
+  $(document).keyup(function (e) {
+    if (e.shiftKey && e.keyCode == 70) {
+      if (BigScreen.enabled) {
+        BigScreen.toggle();
+      } else {
+        // fallback for browsers that don't support full screen
+      }
+    }
+  });
+
   window.posts = new InstagramPostCollection();
   posts.on("add", function (post) {
     var view = new InstagramPostView({ model: post });
