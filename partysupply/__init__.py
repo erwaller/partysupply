@@ -27,6 +27,8 @@ def cli(args, options):
                 print "%10s\t%10s\t%10s\t%10s" % (sub["id"], sub["object"], sub["object_id"], sub["callback_url"])
         elif args[1] == "delete":
             resp = api.delete_subscriptions(id=args[2])
+            # TODO: don't assume "tag" here
+            Subscription.cache_subscriptions("tag")
             print resp
     else:
         from IPython.Shell import IPythonShellEmbed
