@@ -32,7 +32,7 @@ button {width: auto; overflow: visible;}
 .clearfix:before, .clearfix:after {content: "\0020"; display: block; height: 0; overflow: hidden;}
 .clearfix:after {clear: both;}
 .clearfix {zoom: 1;}
-a:link {-webkit-tap-highlight-color: #fcd700;}
+a:link {-webkit-tap-highlight-color: #3E86FF;}
 
 
 /*
@@ -75,7 +75,7 @@ h1.background {
 
   width: 1000px;
   text-align: right;
-  left: -606px;
+  left: -596px;
   top: 448px;
 
   -webkit-transform: rotate(-90deg);
@@ -88,8 +88,18 @@ h1.background {
 }
 
 header {
-  border-top: 3px solid rgba(62, 134, 255, 0.75);
   margin-bottom: 28px;
+  height: 3px;
+
+  /* http://www.colorzilla.com/gradient-editor/#fd294c+0,ffcc3a+31,6ac995+65,3e86ff+100;Custom */
+  background: #3E86FF; /* Old browsers */
+  background: -moz-linear-gradient(left, #fd294c 0%, #ffcc3a 31%, #6ac995 65%, #3e86ff 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%,#fd294c), color-stop(31%,#ffcc3a), color-stop(65%,#6ac995), color-stop(100%,#3e86ff)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(left, #fd294c 0%,#ffcc3a 31%,#6ac995 65%,#3e86ff 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(left, #fd294c 0%,#ffcc3a 31%,#6ac995 65%,#3e86ff 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(left, #fd294c 0%,#ffcc3a 31%,#6ac995 65%,#3e86ff 100%); /* IE10+ */
+  background: linear-gradient(to right, #fd294c 0%,#ffcc3a 31%,#6ac995 65%,#3e86ff 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fd294c', endColorstr='#3e86ff',GradientType=1 ); /* IE6-9 */
 }
 
 .post.instagram {

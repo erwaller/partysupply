@@ -70,21 +70,15 @@ var InstagramPostView = Backbone.View.extend({
 });
 
 $(function () {
-  var count = 0;
+  setTimeout(function() {
+    window.scrollTo(0, 0);
+  }, 0);
 
-  // _.each(BOOTSTRAP_DATA, function (media) {
-  //   var view = new InstagramPostView({ media: media });
-  //   setTimeout(function () { view.render().$el.prependTo(".posts"); }, (++count) * 1000);
-  // });
-  
   window.posts = new InstagramPostCollection();
-  
   posts.on("add", function (post) {
     var view = new InstagramPostView({ model: post });
     view.render().$el.prependTo(".posts");
   });
-  
   posts.add(BOOTSTRAP_DATA.posts);
-  
   posts.startPolling();
 });
