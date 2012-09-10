@@ -70,10 +70,6 @@ var InstagramPostView = Backbone.View.extend({
 });
 
 $(function () {
-  setTimeout(function() {
-    window.scrollTo(0, 0);
-  }, 0);
-
   $(document).keyup(function (e) {
     if (e.shiftKey && e.keyCode == 70) {
       if (BigScreen.enabled) {
@@ -91,4 +87,9 @@ $(function () {
   });
   posts.add(BOOTSTRAP_DATA.posts);
   posts.startPolling();
+
+
+  _.defer(function() {
+    window.scrollTo(0, 0);
+  });
 });

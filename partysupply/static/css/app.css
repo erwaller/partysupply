@@ -43,6 +43,7 @@ body {
   color: #444;
   font-size: 62.5%;
   background: #111 url(/static/images/dark_wall.png) repeat;
+  min-height: 400px;
 }
 
 /* instagram palette
