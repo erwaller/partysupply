@@ -13,7 +13,6 @@ from tornado.curl_httpclient import CurlAsyncHTTPClient
 from instagram import client, subscriptions
 
 from models import Subscription, Media
-from insta import INSTAGRAM_CLIENT_SECRET
 import config
 
 logger = logging.getLogger(__name__)
@@ -58,7 +57,7 @@ class SubscriptionsHandler(BaseHandler):
         raw_body = self.request.body
         try:
             logger.info("Received updates for subscription: %s/%s", obj, object_id)
-            self.application.reactor.process(INSTAGRAM_CLIENT_SECRET,
+            self.application.reactor.process(config.INSTAGRAM_CLIENT_SECRET,
                                              raw_body,
                                              x_hub_signature)
         except subscriptions.SubscriptionVerifyError:
