@@ -94,10 +94,10 @@ class Application(tornado.web.Application):
         tornado.ioloop.IOLoop.instance().add_callback(defer)
 
 
-def run_server(port, tags):
+def run_server(port):
     tornado.options.parse_command_line()
 
-    application = Application(tags)
+    application = Application(config.TAGS)
     application.listen(port, xheaders=True)
     logger.info("api started 0.0.0.0:%d [%s] %d", int(port), config.SG_ENV, os.getpid())
     tornado.ioloop.IOLoop.instance().start()
