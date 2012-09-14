@@ -12,7 +12,7 @@ from insta import api, my_tag_recent_media
 REDIS_URL = os.environ.get("REDISTOGO_URL", "redis://localhost:6379/0")
 _url = urlparse.urlparse(REDIS_URL, scheme="redis")
 _, _, _db = _url.path.rpartition("/")
-REDIS = redis.StrictRedis(_url.hostname, _url.port, int(_db))
+REDIS = redis.StrictRedis(_url.hostname, _url.port, int(_db) if _db.isdigit() else 0)
 
 logger = logging.getLogger(__name__)
 
