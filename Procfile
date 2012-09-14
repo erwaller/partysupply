@@ -1,1 +1,1 @@
-web: python partysupply.py server --port $PORT --tags starbucks
+web: python partysupply.py server --port $PORT
