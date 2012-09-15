@@ -69,14 +69,15 @@ a:hover {
 
 h1.background {
   color: #1d1d1d;
-  font-size: 13em;
+  font-size: 10em;
   font-weight: bold;
   position: absolute;
   z-index: -1;
+  letter-spacing: -4px;
 
   width: 1000px;
   text-align: right;
-  left: -596px;
+  left: -581px;
   top: 448px;
 
   -webkit-transform: rotate(-90deg);
