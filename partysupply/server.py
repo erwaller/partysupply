@@ -28,7 +28,7 @@ class BaseHandler(tornado.web.RequestHandler):
 class IndexHandler(BaseHandler):
 
     def get(self):
-        bootstrap_data = dict(posts=Media.find_by_tag(self.tags[0], 15))
+        bootstrap_data = dict(posts=Media.find_by_tag(self.tags[0], 250))
         self.render("index.html", bootstrap_data_json=json.dumps(bootstrap_data),
                                   tags=self.tags)
 
